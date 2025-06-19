@@ -6,7 +6,7 @@ JavaFXによる太陽系シミュレーターです。
 ## 旧バージョン（Processing版）
 
 旧バージョンのソースはこちら：
-https://github.com/あなたのユーザー名/project2
+https://github.com/0x000x7f/project2
 
 ## 実行方法
 
