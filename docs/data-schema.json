@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "データスキーマのバージョン"
+    },
+    "celestialBodies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "type", "mass", "radius", "orbit"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "天体の一意の識別子"
+          },
+          "name": {
+            "type": "string",
+            "description": "天体の表示名"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["star", "planet", "dwarf_planet", "moon"],
+            "description": "天体の種類"
+          },
+          "mass": {
+            "type": "number",
+            "description": "質量（地球質量を1とする）"
+          },
+          "radius": {
+            "type": "number",
+            "description": "半径（地球半径を1とする）"
+          },
+          "orbit": {
+            "type": "object",
+            "required": ["semiMajorAxis", "eccentricity", "inclination", "period"],
+            "properties": {
+              "semiMajorAxis": {
+                "type": "number",
+                "description": "軌道長半径（AU）"
+              },
+              "eccentricity": {
+                "type": "number",
+                "description": "離心率"
+              },
+              "inclination": {
+                "type": "number",
+                "description": "軌道傾斜角（度）"
+              },
+              "period": {
+                "type": "number",
+                "description": "公転周期（地球年）"
+              }
+            }
+          },
+          "rotation": {
+            "type": "object",
+            "properties": {
+              "period": {
+                "type": "number",
+                "description": "自転周期（地球日）"
+              },
+              "axis": {
+                "type": "object",
+                "properties": {
+                  "x": { "type": "number" },
+                  "y": { "type": "number" },
+                  "z": { "type": "number" }
+                }
+              }
+            }
+          },
+          "texture": {
+            "type": "string",
+            "description": "テクスチャファイルのパス"
+          },
+          "color": {
+            "type": "string",
+            "description": "テクスチャがない場合の色（HEX）"
+          }
+        }
+      }
+    }
+  }
+} 

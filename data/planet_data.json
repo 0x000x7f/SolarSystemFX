@@ -1,0 +1,71 @@
+{
+  "version": "1.0.0",
+  "celestialBodies": [
+    {
+      "id": "sun",
+      "name": "太陽",
+      "type": "star",
+      "mass": 333000,
+      "radius": 109,
+      "orbit": {
+        "semiMajorAxis": 0,
+        "eccentricity": 0,
+        "inclination": 0,
+        "period": 0
+      },
+      "rotation": {
+        "period": 25.05,
+        "axis": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "color": "#FFD700"
+    },
+    {
+      "id": "earth",
+      "name": "地球",
+      "type": "planet",
+      "mass": 1,
+      "radius": 1,
+      "orbit": {
+        "semiMajorAxis": 1,
+        "eccentricity": 0.0167,
+        "inclination": 0,
+        "period": 1
+      },
+      "rotation": {
+        "period": 1,
+        "axis": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "color": "#4169E1"
+    },
+    {
+      "id": "mars",
+      "name": "火星",
+      "type": "planet",
+      "mass": 0.107,
+      "radius": 0.532,
+      "orbit": {
+        "semiMajorAxis": 1.524,
+        "eccentricity": 0.0934,
+        "inclination": 1.85,
+        "period": 1.88
+      },
+      "rotation": {
+        "period": 1.03,
+        "axis": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "color": "#CD5C5C"
+    }
+  ]
+} 
