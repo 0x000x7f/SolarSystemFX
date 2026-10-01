@@ -2,6 +2,7 @@ package com.example.solarsystem;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.Group;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.layout.StackPane;
@@ -52,7 +53,8 @@ public class MainFX extends Application {
         root.setPrefSize(1920, 1080);  // 明示的にサイズを設定
 
         // 3Dビューの設定
-        subScene = new SubScene(root, 1920, 1080, true, SceneAntialiasing.BALANCED);
+        Group worldRoot = new Group();
+        subScene = new SubScene(worldRoot, 1920, 1080, true, SceneAntialiasing.BALANCED);
         subScene.setFill(Color.BLACK);
         subScene.widthProperty().bind(root.widthProperty());  // 幅をバインド
         subScene.heightProperty().bind(root.heightProperty()); // 高さをバインド
@@ -62,9 +64,9 @@ public class MainFX extends Application {
         camera.setTranslateZ(-1000);
         subScene.setCamera(camera);
 
-        // 天体の3Dモデルをrootに追加
+        // 天体の3DモデルはUIとは別のルートに追加
         for (CelestialBody body : solarSystemManager.getCelestialBodies()) {
-            root.getChildren().add(body.getSphere());
+            worldRoot.getChildren().add(body.getSphere());
         }
 
         // 3DビューをStackPaneに追加
@@ -216,4 +218,11 @@ public class MainFX extends Application {
             System.err.println("Error launching application: " + e.getMessage());
         }
     }
-} 
+
+    @Override
+    public void stop() {
+        if (animationTimer != null) {
+            animationTimer.stop();
+        }
+    }
+}
