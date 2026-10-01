@@ -36,6 +36,8 @@ public class SolarSystemManager {
         this.statusMessage = new SimpleStringProperty("");
         this.currentTime = 0.0;
         this.lastUpdateTime = 0;  // 初期化
+        // UIの双方向バインディングによる切り替えでも停止時間を加算しない。
+        this.isPaused.addListener((obs, oldValue, newValue) -> lastUpdateTime = 0);
 
         // データの読み込み
         loadCelestialBodies();
@@ -92,6 +94,7 @@ public class SolarSystemManager {
         }
         double deltaTime = (now - lastUpdateTime) / 1_000_000_000.0 * timeScale.get();
         lastUpdateTime = now;
+        currentTime += deltaTime;
 
         // 天体の位置を更新
         for (CelestialBody body : bodies) {
@@ -166,14 +169,12 @@ public class SolarSystemManager {
     public void pause() {
         if (!isPaused.get()) {
             isPaused.set(true);
-            lastUpdateTime = 0;  // 一時停止時にlastUpdateTimeをリセット
         }
     }
 
     public void resume() {
         if (isPaused.get()) {
             isPaused.set(false);
-            lastUpdateTime = System.nanoTime();  // 再開時に現在時刻を設定
         }
     }
 
@@ -201,4 +202,4 @@ public class SolarSystemManager {
     public double getCurrentTime() {
         return currentTime;
     }
-} 
+}

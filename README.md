@@ -10,15 +10,67 @@ https://github.com/0x000x7f/project2
 
 ## 実行方法
 
+JDK 21 と Maven 3.9.6 以上が必要です。`JAVA_HOME` を JDK のディレクトリに設定し、
+`java -version` と `mvn -version` で Maven も Java 21 を使用していることを確認してください。
+以下はリポジトリのルートで実行します。Windows の PowerShell でも同じコマンドを使用できます。
+
+```bash
+mvn -B -ntp clean verify
+```
+
+GUI を起動する場合は、デスクトップの表示環境で次を実行します。
+
 ```bash
 mvn clean javafx:run
 ```
+
+起動クラスは `com.example.solarsystem.MainFX` です。
+JavaFX の OS/CPU に合う依存は Maven が自動選択します。
+`os.detected.classifier` の追加や OS 別プロファイルの指定は不要です。
+別 OS 用の配布物を作る手順とは異なります。
+
+### Linux の GUI テストと CI
+
+テストは実際の JavaFX Toolkit を起動します。Linux では GTK、音声ライブラリ、
+表示サーバーが必要です。Ubuntu 24.04 の表示サーバーがない環境では次を使用します。
+
+```bash
+sudo apt-get update
+sudo apt-get install -y xvfb libgtk-3-0 libasound2t64
+xvfb-run -a mvn -B -ntp clean verify
+```
+
+`.github/workflows/build.yml` は Windows/Linux と JDK 21 で上記の検証を行い、
+同じキャッシュでのオフライン検証とテストレポート保存も行います。
+GUI テストの失敗は JavaFX スレッドから JUnit に伝播します。
+
+### オフラインビルド
+
+最初にネットワークへ接続した状態で、依存とビルドプラグインを取得し、
+同じ OS/CPU・JDK・Maven・ローカルリポジトリで一度検証を完了してください。
+
+```bash
+mvn -B -ntp dependency:go-offline
+mvn -B -ntp clean verify
+mvn -o -B -ntp clean verify
+```
+
+Linux の表示サーバーがない環境では、各コマンドの前に `xvfb-run -a` を付けます。
+`go-offline` だけで実行時に必要なテストプロバイダー等がすべて取得できるとは限らないため、
+オンラインでの `clean verify` と、その後の `-o` 検証を省略しないでください。
+依存・プラグインの変更、キャッシュ削除、別 OS への移動後は再取得が必要です。
+オフラインの GUI 起動は、オンラインで `mvn javafx:run` を一度実行して
+起動プラグインの依存を取得した上で、`mvn -o javafx:run` を使用します。
+現在のデフォルト天体データはルートの `data/` にあるため、実行場所を変更しないでください。
+
+公式資料: [OpenJFX の Maven 構成](https://openjfx.io/openjfx-docs/ide-vscode.html#maven)、
+[Maven dependency:go-offline](https://maven.apache.org/plugins/maven-dependency-plugin/go-offline-mojo.html)。
 
 ## 使用技術
 
 * Java 21
 * JavaFX 21.0.1
-* Maven 3.9.6
+* Maven 3.9.6 以上（検証環境: 3.9.9）
 
 ## 主な機能
 
